@@ -21,8 +21,20 @@ class RVAdapter(val items: MutableList<String>) : RecyclerView.Adapter<RVAdapter
 
         return ViewHolder(view)
     }
+    //item의 클릭이벤트를 처리할 인터페이스
+    interface ItemClick {
+        fun onClick(view: View, position:Int)
+    }
+    var itemClick : ItemClick? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //recyclerview 클릭이벤트 추가
+        if (itemClick != null){
+            holder.itemView.setOnClickListener{
+                v-> itemClick?.onClick(v, position)
+            }
+        }
+
         holder.bindItens(items[position]) //아이템 뷰바인딩
 
     }
